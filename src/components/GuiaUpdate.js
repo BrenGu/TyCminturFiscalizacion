@@ -179,7 +179,7 @@ class GuiaUpdate extends Component {
           this.setState({
             ciudades: data.data.registros,
           });
-          console.log(data.data.registros);
+         // console.log(data.data.registros);
         });
       }
     });
@@ -388,7 +388,8 @@ class GuiaUpdate extends Component {
     event.preventDefault();
   };
 
-  handleChange = (event) => {
+ /* handleChange = (event) => {
+    
     const target = event.target;
     const name = target.name;
 
@@ -418,7 +419,49 @@ class GuiaUpdate extends Component {
       },
     });
   };
+*/
 
+//---------------------------------
+handleChange = (event) => {
+  const target = event.target;
+  const name = target.name;
+  //const value = target.type === "checkbox" ? target.checked : target.value;
+  var value = target.type === "checkbox" ? target.checked : target.value ;
+  var valueInt = Number(value);
+
+  
+
+
+  if (target.type === "number") {
+    if (valueInt === "") {
+      valueInt = 1;
+      
+    } else {
+      if (isFinite(valueInt)) {
+        let x = parseInt(valueInt, 10);
+        if (x > 0 || x < 999) {
+          x = 0;
+        }
+        valueInt = x; //Por algun motivo queda un 0 ver!
+      } else {
+        valueInt = 0;
+      }
+    }
+  }
+//console.log(name + " " +  value);
+//console.log(name + " " + valueInt);
+
+  this.setState({  guia: {
+    ...this.state.guia,
+    [name]: valueInt,
+  },
+    });
+  
+};
+//---------------------------------
+
+
+  
   componentDidMount() {
     if (
       isFinite(this.props.match.params.id) &&
@@ -996,21 +1039,25 @@ class GuiaUpdate extends Component {
                           </FormGroup>
                         </Col>
                         <Col xs="12" md="12">
-                          {/*<form>
-                            <label>
-                              {this.state.guia.adhiereCovid}
-                              <input
-                                name="adhiereCovid"
-                                type="checkbox"
-                                checked={
-                                  this.state.guia.adhiereCovid ? true : false
-                                }
-                                onChange={this.handleChange}
-                              />
-                            </label>
-                          </form>
+
+
+                        {           /* Bendito checked   */      }  
+                             <FormGroup check>
+                             { this.state.guia.adhiereCovid >= 1 ? 
+                               (<Input type="checkbox" name="adhiereCovid"                              
+                               checked={ this.state.guia.adhiereCovid ? "checked": false}                           
+                               onChange={this.handleChange} />)
+                               : (
+                                <Input type="checkbox" name="adhiereCovid"
+                                onChange={this.handleChange} />
+                               )
+                               }  
+                             <Label> Adhiere Covid </Label>  
+                           </FormGroup>
+
+
                           
-                          <FormGroup check>
+                         {/* <FormGroup check>
                             <Label check>
                               <Input
                                 type="checkbox"
@@ -1023,8 +1070,10 @@ class GuiaUpdate extends Component {
                               {this.state.guia.adhiereCovid} +{" "}
                               {this.checkedCovid}
                             </Label>
-                          </FormGroup>*/}
-                          <Label htmlFor="adhiereCovid">Adhiere Covid</Label>
+                          </FormGroup> */}
+
+                          
+                       {/*   <Label htmlFor="adhiereCovid">Adhiere Covid</Label>
                           <Input
                             type="input"
                             id="adhiereCovid"
@@ -1033,7 +1082,7 @@ class GuiaUpdate extends Component {
                             value={this.state.guia.adhiereCovid}
                             onChange={this.handleChange}
                             rows="8"
-                          />
+                        />*/}
                         </Col>
                         <br />
                         <br />
