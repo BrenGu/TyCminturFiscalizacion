@@ -58,6 +58,7 @@ class GuiaUpdate extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      nuevo: false,
       loading: true,
       error: false,
       modal: {
@@ -268,6 +269,7 @@ class GuiaUpdate extends Component {
             ...this.state.modal,
             msg: "El alojamiento fue deshabilitado.",
             open: true,
+            nuevo: false,
           },
         });
       } else {
@@ -286,6 +288,7 @@ class GuiaUpdate extends Component {
                 msg: data.errMsg,
                 extras: errores,
                 open: true,
+                nuevo: false,
               },
             });
           } else {
@@ -296,6 +299,7 @@ class GuiaUpdate extends Component {
                 msg:
                   "Error desconocido, comunicar al Administrador del sistema esta situación!",
                 open: true,
+                nuevo: false,
               },
             });
           }
@@ -348,6 +352,7 @@ class GuiaUpdate extends Component {
             ...this.state.modal,
             msg: "Los datos se actualizaron correctamente!",
             open: true,
+            nuevo: false,
           },
         });
       } else {
@@ -366,6 +371,7 @@ class GuiaUpdate extends Component {
                 msg: data.errMsg,
                 extras: errores,
                 open: true,
+                nuevo: false,
               },
             });
           } else {
@@ -376,6 +382,7 @@ class GuiaUpdate extends Component {
                 msg:
                   "Error desconocido, comunicar al Administrador del sistema esta situación!",
                 open: true,
+                nuevo: false,
               },
             });
           }
@@ -388,7 +395,7 @@ class GuiaUpdate extends Component {
     event.preventDefault();
   };
 
- /* handleChange = (event) => {
+  handleChange = (event) => {
     
     const target = event.target;
     const name = target.name;
@@ -419,10 +426,10 @@ class GuiaUpdate extends Component {
       },
     });
   };
-*/
+
 
 //---------------------------------
-handleChange = (event) => {
+/*handleChange = (event) => {
   const target = event.target;
   const name = target.name;
   //const value = target.type === "checkbox" ? target.checked : target.value;
@@ -457,12 +464,28 @@ handleChange = (event) => {
   },
     });
   
+};*/
+//---------------------------------
+
+
+//---------------------------------
+handleAdhiereChange = (event) => {
+  const target = event.target;
+  const name = target.name;
+   var value = Number(target.type === "checkbox" ? target.checked : target.value) ;
+  this.setState({  guia: {
+    ...this.state.guia,
+    [name]: value,
+  },
+    });
+  
 };
 //---------------------------------
 
 
   
   componentDidMount() {
+    
     if (
       isFinite(this.props.match.params.id) &&
       this.props.match.params.id !== "0"
@@ -702,6 +725,7 @@ handleChange = (event) => {
                 </div>
                 <Form
                   onSubmit={this.handleSubmit}
+                  
                   className="pb-5"
                   autoComplete="off"
                 >
@@ -1046,10 +1070,10 @@ handleChange = (event) => {
                              { this.state.guia.adhiereCovid >= 1 ? 
                                (<Input type="checkbox" name="adhiereCovid"                              
                                checked={ this.state.guia.adhiereCovid ? "checked": false}                           
-                               onChange={this.handleChange} />)
+                               onChange={this.handleAdhiereChange} />)
                                : (
                                 <Input type="checkbox" name="adhiereCovid"
-                                onChange={this.handleChange} />
+                                onChange={this.handleAdhiereChange} />
                                )
                                }  
                              <Label> Adhiere Covid </Label>  

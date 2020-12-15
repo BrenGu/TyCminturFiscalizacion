@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Loading from "../utils/loading";
 import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import {
   Container,
   Row,
@@ -55,6 +56,7 @@ class Nuevo extends Component {
       loading: true,
       error: false,
       modal: {
+        nuevo: true,
         msg: "",
         extras: "",
         open: false,
@@ -110,7 +112,7 @@ class Nuevo extends Component {
       },
     });
     this.props.history.push(this.props.match.url);
-    window.location.reload(true);
+    //window.location.reload(true);
   };
 
   findValorizacion = (idTipoCategoriasSelect, idValorTipCatGuia) => {
@@ -201,7 +203,7 @@ class Nuevo extends Component {
       () => {
         this.getCiudades(value).then(() => {
           const idCity = this.state.ciudades;
-          console.log(this.state.ciudades[0] + "id ?? ");
+          //console.log(this.state.ciudades[0] + "id ?? ");
           this.setState((prevState) => ({
             guia: {
               ...prevState.guia,
@@ -256,8 +258,11 @@ class Nuevo extends Component {
             ...this.state.modal,
             msg: "Los datos se actualizaron correctamente!",
             open: true,
+            nuevo:true,
           },
         });
+
+        //<Redirect to={this.state.ultimo}></Redirect>
       } else {
         //409 Conflicto
         res.json().then((data) => {
@@ -296,7 +301,7 @@ class Nuevo extends Component {
     event.preventDefault();
   };
 
-  handleChange = (event) => {
+ /* handleChange = (event) => {
     const target = event.target;
     const name = target.name;
     //const value = target.type === "checkbox" ? target.checked : target.value;
@@ -316,6 +321,37 @@ class Nuevo extends Component {
         }
       }
     }
+*/
+
+    //---------------------------------------
+    handleChange = (event) => {
+      const target = event.target;
+      const name = target.name;
+      //const value = target.type === "checkbox" ? target.checked : target.value;
+      var value = target.type === "checkbox" ? target.checked : target.value ;
+      var valueInt = Number(value);
+    
+      if (target.type === "number") {
+        if (valueInt === "") {
+          valueInt = 1;
+          
+        } else {
+          if (isFinite(valueInt)) {
+            let x = parseInt(valueInt, 10);
+            if (x > 0 || x < 999) {
+              x = 0;
+            }
+            valueInt = x; //Por algun motivo queda un 0 ver!
+          } else {
+            valueInt = 0;
+          }
+        }
+      }
+   // console.log(name + " " +  value);
+//    console.log(name + " " + valueInt);
+    //--------------------------------
+    
+
     this.setState({
       guia: {
         ...this.state.guia,
@@ -324,8 +360,23 @@ class Nuevo extends Component {
     });
   };
 
+//---------------------------------
+handleAdhiereChange = (event) => {
+  const target = event.target;
+  const name = target.name;
+   var value = Number(target.type === "checkbox" ? target.checked : target.value) ;
+  this.setState({  guia: {
+    ...this.state.guia,
+    [name]: value,
+  },
+    });
+  
+};
+//---------------------------------
+
+
   componentDidMount() {
-    fetch(process.env.REACT_APP_URL_API_SERVER_2 + "/guia/ultimo").then(
+/*     fetch(process.env.REACT_APP_URL_API_SERVER_2 + "/guia/ultimo").then(
       (res) => {
         if (res.ok && res.status === 200) {
           res.json().then((data) => {
@@ -333,10 +384,12 @@ class Nuevo extends Component {
               ultimo: data.data.registros[0].id,
             });
             console.log(this.state.ultimo);
+           
           });
         }
+        
       }
-    );
+    ); */
     if (true) {
       //Tipos de Categorias
       fetch(
@@ -361,7 +414,7 @@ class Nuevo extends Component {
         }
       });
       //Datos de la Guia
-
+console.log("did mount")
       this.setState({
         guia: {
           iddepartamento: 1,
@@ -882,6 +935,23 @@ class Nuevo extends Component {
                             </div>
                           </FormGroup>
                         </Col>
+
+
+                        <Col xs="12" md="12">
+                        <FormGroup check>
+                            <Input 
+                            type="checkbox"
+                            name="adhiereCovid"
+                            id="adhiereCovid"
+                            value={this.state.guia.adhiereCovid}
+                            onChange={this.handleAdhiereChange}
+                                />
+                            <Label> Adhiere Covid </Label>  
+                           </FormGroup>
+                           </Col>
+
+
+
                         <Col
                           xs="12"
                           md="12"
@@ -892,14 +962,14 @@ class Nuevo extends Component {
                             type="button"
                             onClick={this.subirFormulario}
                           >
-                            Guardar Cambios
+                            Guardar
                           </Button>
                           &nbsp; &nbsp;
-                          <Link to={"/guia/" + this.state.ultimo}>
+                       {/* <Link to={"/guia/" + this.state.ultimo}>
                             <Button color="primary" type="button">
                               Ver Último
                             </Button>
-                          </Link>
+                          </Link> */}
                         </Col>
                       </Row>
                     </TabPane>
