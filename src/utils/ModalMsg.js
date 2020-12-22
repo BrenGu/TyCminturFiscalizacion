@@ -30,7 +30,7 @@ class ModalMsg extends Component {
                   //console.log(this.state.ultimo);
                 } else {
                   //console.log(this.state.ultimo);
-                  window.location.href = `http://turismo.sanluis.gov.ar/#/guia/${data.data.registros[0].id}`;
+                  window.location.href = `http://turismo.sanluis.gov.ar/sistema-turismo/#/turismo/guia/${data.data.registros[0].id}`;
                 }
               });
             }
