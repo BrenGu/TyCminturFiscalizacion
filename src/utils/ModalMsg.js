@@ -8,32 +8,39 @@ class ModalMsg extends Component {
       open: false,
       msg: "",
       onlyOk: false,
+      nuevo: true,
+      id: false,
     };
     this.msgActivar = this.msgActivar.bind(this);
   }
   msgActivar() {
-    console.log("msgactivar");
     if (this.props.msg == "Los datos se actualizaron correctamente!") {
-      fetch(process.env.REACT_APP_URL_API_SERVER_2 + "/guia/ultimo").then(
-        (res) => {
-          if (res.ok && res.status === 200) {
-            res.json().then((data) => {
-              /*  this.setState({
+      // console.log(this.props.nuevo);
+      if (this.state.nuevo) {
+        fetch(process.env.REACT_APP_URL_API_SERVER_2 + "/guia/ultimo").then(
+          (res) => {
+            if (res.ok && res.status === 200) {
+              res.json().then((data) => {
+                /*  this.setState({
                     ultimo: data.data.registros[0].id,
                   }); */
-              console.log(data.data.registros[0].id);
 
-              if (window.location.hostname === "localhost") {
-                window.location.href = `http://localhost:3000/#/guia/${data.data.registros[0].id}`;
-                //console.log(this.state.ultimo);
-              } else {
-                console.log(this.state.ultimo);
-                window.location.href = `http://turismo.sanluis.gov.ar/#${data.data.registros[0].id}`;
-              }
-            });
+                if (window.location.hostname === "localhost") {
+                  window.location.href = `http://localhost:3000/#/guia/${data.data.registros[0].id}`;
+                  //console.log(this.state.ultimo);
+                } else {
+                  //console.log(this.state.ultimo);
+                  window.location.href = `http://turismo.sanluis.gov.ar/#/guia/${data.data.registros[0].id}`;
+                }
+              });
+            }
           }
-        }
-      );
+        );
+      } else {
+        this.setState({
+          open: false,
+        });
+      }
     } else {
       this.props.handleAceptar();
     }
@@ -43,6 +50,8 @@ class ModalMsg extends Component {
       open: this.props.open,
       msg: this.props.msg,
       onlyOk: this.props.onlyOk,
+      nuevo: this.props.nuevo,
+      id: this.props.id,
     });
   }
 
@@ -85,12 +94,11 @@ class ModalMsg extends Component {
             {onlyOk ? (
               <Button
                 color="primary"
-              /*  onClick={() => {
+                onClick={() => {
                   this.msgActivar();
-                 // this.props.handleAceptar
-                 
-                }}*/
-                onClick={this.props.handleAceptar}
+                  // this.props.handleAceptar
+                }}
+                //onClick={this.props.handleAceptar}
               >
                 Aceptar
               </Button>

@@ -376,7 +376,7 @@ handleAdhiereChange = (event) => {
 
 
   componentDidMount() {
-/*     fetch(process.env.REACT_APP_URL_API_SERVER_2 + "/guia/ultimo").then(
+     fetch(process.env.REACT_APP_URL_API_SERVER_2 + "/guia/ultimo").then(
       (res) => {
         if (res.ok && res.status === 200) {
           res.json().then((data) => {
@@ -389,7 +389,7 @@ handleAdhiereChange = (event) => {
         }
         
       }
-    ); */
+    ); 
     if (true) {
       //Tipos de Categorias
       fetch(
@@ -965,7 +965,7 @@ console.log("did mount")
                             Guardar
                           </Button>
                           &nbsp; &nbsp;
-                       {/* <Link to={"/guia/" + this.state.ultimo}>
+                       { /*<Link to={"/guia/" + this.state.ultimo}>
                             <Button color="primary" type="button">
                               Ver Último
                             </Button>
@@ -986,10 +986,11 @@ console.log("did mount")
         </Row>
         <ModalMsg
           open={this.state.modal.open}
-          titulo="Update"
+          titulo="Nuevo"
           msg={this.state.modal.msg}
           onlyOk={this.state.modal.onlyOk}
           handleAceptar={this.handleMsgOk}
+          nuevo={this.state.modal.nuevo}
         >
           {this.state.modal.extras}
         </ModalMsg>

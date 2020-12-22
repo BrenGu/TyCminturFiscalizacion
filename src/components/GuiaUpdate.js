@@ -58,7 +58,7 @@ class GuiaUpdate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nuevo: false,
+      
       loading: true,
       error: false,
       modal: {
@@ -66,6 +66,7 @@ class GuiaUpdate extends Component {
         extras: "",
         open: false,
         onlyOk: true,
+        nuevo: false,
       },
       id: 0,
       tipos: [{ id: 0, descripcion: "Loading..." }],
@@ -535,12 +536,12 @@ handleAdhiereChange = (event) => {
 
                   () => {
                     //Back //Esto Sirve para volver al Home en el lugar que se inició
-                    /*
-									localStorage.setItem("idDepartamento", this.state.guia.iddepartamento);
-									localStorage.setItem("nombreDepartamento", this.state.guia.nombredepartamento);
-									localStorage.setItem("idCiudad", this.state.guia.idciudad);
-									localStorage.setItem("nombreCiudad", this.state.guia.nombreciudad);
-									*/
+                    
+								//	localStorage.setItem("idDepartamento", this.state.guia.iddepartamento);
+								//	localStorage.setItem("nombreDepartamento", this.state.guia.nombredepartamento);
+									//localStorage.setItem("idCiudad", this.state.guia.idciudad);
+								//	localStorage.setItem("nombreCiudad", this.state.guia.nombreciudad);
+									
                     //Tipos de Valorización
                     this.setState({
                       tiposcategoriasselect: this.state.guia.idtipocategorias,
@@ -574,12 +575,14 @@ handleAdhiereChange = (event) => {
                 this.setState({
                   loading: false,
                   error: true,
+                  nuevo: false,
                 });
               }
             } else {
               this.setState({
                 loading: false,
                 error: true,
+                nuevo: false,
               });
             }
           });
@@ -591,9 +594,10 @@ handleAdhiereChange = (event) => {
       this.setState({
         loading: false,
         error: true,
+        nuevo: false,
       });
     }
-  }
+  } 
 
   render() {
     const loading = this.state.loading;
@@ -1547,11 +1551,14 @@ handleAdhiereChange = (event) => {
           </Col>
         </Row>
         <ModalMsg
+        id={this.state.modal.nuevo}
           open={this.state.modal.open}
           titulo="Update"
           msg={this.state.modal.msg}
           onlyOk={this.state.modal.onlyOk}
           handleAceptar={this.handleMsgOk}
+          nuevo={this.state.modal.nuevo}
+          
         >
           {this.state.modal.extras}
         </ModalMsg>
