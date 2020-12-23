@@ -38,7 +38,8 @@ class Web extends Component {
 
     handleLogOut = () => {
 		localStorage.clear();
-		window.location.replace(`${process.env.REACT_APP_URL_HOST}/${process.env.REACT_APP_BASENAME}`);
+		this.props.logout();
+		//window.location.replace(`${process.env.REACT_APP_URL_HOST}/${process.env.REACT_APP_BASENAME}`);
 	}
 	
 	/*
@@ -55,7 +56,7 @@ class Web extends Component {
 							<Link to="/" className="nav-link" onClick={this.handleMenuClick}>Home</Link>
 							<Link to="/filtro" className="nav-link" onClick={this.handleMenuClick}>Consultas</Link>
 							
-							<a onClick={this.handleLogOut}>Logout</a>
+							<a href="" onClick={this.handleLogOut} style={{textDecoration: "none"}}>Cerrar sesión</a>
 						</Menu>
 						<Route exact path="/" component={Home} />
 						<Route exact path="/filtro" component={Filtro} />

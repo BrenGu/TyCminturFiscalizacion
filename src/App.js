@@ -11,6 +11,7 @@ class App extends Component {
 			auth: false
 		};
 		this.handleOkauth = this.handleOkauth.bind(this);
+		this.handleLogAuth = this.handleLogAuth.bind(this);
 	}
 
 	componentDidMount() {
@@ -30,13 +31,17 @@ class App extends Component {
 		this.setState({auth: true});
 	}
 
+	handleLogAuth = () => {
+		this.setState({auth: false});
+	}
+
 	render() {
 		const auth = this.state.auth;
 		return (
 			<div className="App">
 				{
 					auth ?
-					<Web />
+					<Web logout={this.handleLogAuth} />
 					:
 					<Login ok={this.handleOkauth} />
 				}
