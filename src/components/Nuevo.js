@@ -947,7 +947,17 @@ console.log("did mount")
                             onChange={this.handleAdhiereChange}
                                 />
                             <Label> Adhiere Covid </Label>  
-                           </FormGroup>
+                        </FormGroup>
+                        <FormGroup check>
+                            <Input 
+                            type="checkbox"
+                            name="adhiereDosep"
+                            id="adhiereDosep"
+                            value={this.state.guia.adhiereDosep}
+                            onChange={this.handleAdhiereChange}
+                                />
+                            <Label> Adhiere Dosep </Label>  
+                        </FormGroup>
                            </Col>
 
 

@@ -1082,7 +1082,18 @@ handleAdhiereChange = (event) => {
                                }  
                              <Label> Adhiere Covid </Label>  
                            </FormGroup>
-
+                           <FormGroup check>
+                             { this.state.guia.adhiereDosep >= 1 ? 
+                               (<Input type="checkbox" name="adhiereDosep"                              
+                               checked={ this.state.guia.adhiereDosep ? "checked": false}                           
+                               onChange={this.handleAdhiereChange} />)
+                               : (
+                                <Input type="checkbox" name="adhiereDosep"
+                                onChange={this.handleAdhiereChange} />
+                               )
+                               }  
+                             <Label> Adhiere Dosep </Label>  
+                           </FormGroup>
 
                           
                          {/* <FormGroup check>
