@@ -413,8 +413,7 @@ handleAdhiereChange = (event) => {
           });
         }
       });
-      //Datos de la Guia
-console.log("did mount")
+      
       this.setState({
         guia: {
           iddepartamento: 1,
@@ -454,6 +453,7 @@ console.log("did mount")
           estado: "",
           adhiereCovid: 0,
           adhiereVoucher: 0,
+          adhiereDosep: 0
         },
       });
       fetch(process.env.REACT_APP_URL_API_SERVER_2 + "/departamentos").then(
