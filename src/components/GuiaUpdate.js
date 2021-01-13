@@ -58,7 +58,6 @@ class GuiaUpdate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
       loading: true,
       error: false,
       modal: {
@@ -82,6 +81,7 @@ class GuiaUpdate extends Component {
       valorestipocatselect: 0,
       checked: 2,
       msg: "",
+      idDepart: -1,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -170,23 +170,6 @@ class GuiaUpdate extends Component {
     this.findValorizacion(event.target.value, 0);
   };
 
-  getCiudades = (idDepartamento) => {
-    return fetch(
-      process.env.REACT_APP_URL_API_SERVER_2 +
-        "/ciudades/departamento/" +
-        idDepartamento
-    ).then((res) => {
-      if (res.ok && res.status === 200) {
-        res.json().then((data) => {
-          this.setState({
-            ciudades: data.data.registros,
-          });
-         // console.log(data.data.registros);
-        });
-      }
-    });
-  };
-
   readURLLogo = (event) => {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
@@ -199,29 +182,108 @@ class GuiaUpdate extends Component {
     }
   };
 
+  getCiudades = (idDepartamento) => {
+    return fetch(
+      process.env.REACT_APP_URL_API_SERVER_2 +
+        "/ciudades/departamento/" +
+        idDepartamento
+    ).then((res) => {
+      if (res.ok && res.status === 200) {
+        res.json().then((data) => {
+          this.setState({
+            ciudades: data.data.registros,
+          });
+
+          this.setState((prevState) => ({
+            ciudades: data.data.registros,
+          }));
+          //Ciudades según el departamento
+          //console.log(data.data.registros); 
+        });
+      }
+    });
+  };
+ 
+  //Departamento select
   handleDepartamentoChange = (event) => {
+    //alert ("Por Favor Seleccione una ciudad");  
     const value = event.target.value;
+  // alert(" id departamento: " + value);
     this.setState(
       (prevState) => ({
         guia: {
           ...prevState.guia,
           iddepartamento: value,
+          idciudad:-1,
         },
+        idDepart: value,
       }),
       () => {
         this.getCiudades(value).then(() => {
           const idCity = this.state.ciudades;
-          console.log(this.state.ciudades[0] + "id ?? ");
-          this.setState((prevState) => ({
+          //ciudades
+         // console.log("ciudades:" + this.state.ciudades);
+          console.log("primer ciudad: " + this.state.ciudades[0].id);
+         // console.log("idCity -> nombre: " + idCity[0].nombre);
+        //  alert(" id departamento: " + this.state.idDepart);
+         // alert("1er ciudad de el departamento seleccionado: " + this.state.ciudades[0].nombre);
+         // alert("length: " + this.state.ciudades.length);
+         //if()
+         //alert(this.state.guia.idciudad);
+        // console.log("id ciudad:  " + this.state.guia.idciudad);
+         this.setState((prevState) => ({
             guia: {
               ...prevState.guia,
             },
           }));
+         // alert("length fuera: " + this.state.ciudades.length);
+         // alert(" id departamento: " + this.state.idDepart);
+         // alert("1er ciudad de el departamento seleccionado---: " + this.state.ciudades[0].nombre );
         });
       }
     );
   };
 
+
+//Departamento select con CallBAck
+handleDepartamentoChange1 = (event) => {
+  const value = event.target.value;
+  // alert(" id departamento: " + value);
+  this.setState(
+    (prevState) => ({
+      guia: {
+        ...prevState.guia,
+        iddepartamento: value,
+      },
+      idDepart: value,
+    }),
+    () => {
+      this.getCiudades(value).then(() => {
+        const idCity = this.state.ciudades;
+        //ciudades
+        console.log("ciudades:" + this.state.ciudades);
+        console.log("primer ciudad: " + this.state.ciudades[0].nombre);
+        console.log("idCity -> nombre: " + idCity[0].nombre);
+      //  alert(" id departamento: " + this.state.idDepart);
+       // alert("1er ciudad de el departamento seleccionado: " + this.state.ciudades[0].nombre);
+       // alert("length: " + this.state.ciudades.length);
+        this.setState((prevState) => ({
+          guia: {
+            ...prevState.guia,
+          },
+        }));
+       // alert("length fuera: " + this.state.ciudades.length);
+       // alert(" id departamento: " + this.state.idDepart);
+       // alert("1er ciudad de el departamento seleccionado---: " + this.state.ciudades[0].nombre );
+      });
+    }
+  );
+
+  // console.log("Nombre Ciudad: " + this.state.ciudades[0].nombre );
+  // alert(" id depart fuera del callBack: " + this.state.guia.iddepartamento);
+  // alert("1er ciudad de el departamento seleccionado---: " + this.state.ciudades[0].nombre);
+};
+ 
   deshabilitar = (event) => {
     this.setState({ loading: true });
     event.preventDefault();
@@ -308,6 +370,7 @@ class GuiaUpdate extends Component {
       }
     });
   };
+
   subirFormulario = (event) => {
     this.setState({ loading: true });
     event.preventDefault();
@@ -396,8 +459,16 @@ class GuiaUpdate extends Component {
     event.preventDefault();
   };
 
+  closeModal = () => {
+    this.setState({
+      modal: {
+        ...this.state.modal,
+        open: false,
+      },
+    });
+  };
+
   handleChange = (event) => {
-    
     const target = event.target;
     const name = target.name;
 
@@ -428,9 +499,8 @@ class GuiaUpdate extends Component {
     });
   };
 
-
-//---------------------------------
-/*handleChange = (event) => {
+  //---------------------------------
+  /*handleChange = (event) => {
   const target = event.target;
   const name = target.name;
   //const value = target.type === "checkbox" ? target.checked : target.value;
@@ -466,27 +536,25 @@ class GuiaUpdate extends Component {
     });
   
 };*/
-//---------------------------------
+  //---------------------------------
 
-
-//---------------------------------
-handleAdhiereChange = (event) => {
-  const target = event.target;
-  const name = target.name;
-   var value = Number(target.type === "checkbox" ? target.checked : target.value) ;
-  this.setState({  guia: {
-    ...this.state.guia,
-    [name]: value,
-  },
+  //---------------------------------
+  handleAdhiereChange = (event) => {
+    const target = event.target;
+    const name = target.name;
+    var value = Number(
+      target.type === "checkbox" ? target.checked : target.value
+    );
+    this.setState({
+      guia: {
+        ...this.state.guia,
+        [name]: value,
+      },
     });
-  
-};
-//---------------------------------
+  };
+  //---------------------------------
 
-
-  
   componentDidMount() {
-    
     if (
       isFinite(this.props.match.params.id) &&
       this.props.match.params.id !== "0"
@@ -536,12 +604,12 @@ handleAdhiereChange = (event) => {
 
                   () => {
                     //Back //Esto Sirve para volver al Home en el lugar que se inició
-                    
-								//	localStorage.setItem("idDepartamento", this.state.guia.iddepartamento);
-								//	localStorage.setItem("nombreDepartamento", this.state.guia.nombredepartamento);
-									//localStorage.setItem("idCiudad", this.state.guia.idciudad);
-								//	localStorage.setItem("nombreCiudad", this.state.guia.nombreciudad);
-									
+
+                    //	localStorage.setItem("idDepartamento", this.state.guia.iddepartamento);
+                    //	localStorage.setItem("nombreDepartamento", this.state.guia.nombredepartamento);
+                    //localStorage.setItem("idCiudad", this.state.guia.idciudad);
+                    //	localStorage.setItem("nombreCiudad", this.state.guia.nombreciudad);
+
                     //Tipos de Valorización
                     this.setState({
                       tiposcategoriasselect: this.state.guia.idtipocategorias,
@@ -597,7 +665,7 @@ handleAdhiereChange = (event) => {
         nuevo: false,
       });
     }
-  } 
+  }
 
   render() {
     const loading = this.state.loading;
@@ -729,7 +797,6 @@ handleAdhiereChange = (event) => {
                 </div>
                 <Form
                   onSubmit={this.handleSubmit}
-                  
                   className="pb-5"
                   autoComplete="off"
                 >
@@ -809,7 +876,8 @@ handleAdhiereChange = (event) => {
                                   value={this.state.guia.idciudad}
                                   onChange={this.handleChange}
                                 >
-                                  {ciudades}
+                                 <option value="-1">Seleccione una Ciudad</option>
+                                    {ciudades}
                                 </Input>
                               </FormGroup>
                             </Col>
@@ -1067,36 +1135,51 @@ handleAdhiereChange = (event) => {
                           </FormGroup>
                         </Col>
                         <Col xs="12" md="12">
+                          {/* Bendito checked   */}
+                          <FormGroup check>
+                            {this.state.guia.adhiereCovid >= 1 ? (
+                              <Input
+                                type="checkbox"
+                                name="adhiereCovid"
+                                checked={
+                                  this.state.guia.adhiereCovid
+                                    ? "checked"
+                                    : false
+                                }
+                                onChange={this.handleAdhiereChange}
+                              />
+                            ) : (
+                              <Input
+                                type="checkbox"
+                                name="adhiereCovid"
+                                onChange={this.handleAdhiereChange}
+                              />
+                            )}
+                            <Label> Adhiere Covid </Label>
+                          </FormGroup>
+                          <FormGroup check>
+                            {this.state.guia.adhiereDosep >= 1 ? (
+                              <Input
+                                type="checkbox"
+                                name="adhiereDosep"
+                                checked={
+                                  this.state.guia.adhiereDosep
+                                    ? "checked"
+                                    : false
+                                }
+                                onChange={this.handleAdhiereChange}
+                              />
+                            ) : (
+                              <Input
+                                type="checkbox"
+                                name="adhiereDosep"
+                                onChange={this.handleAdhiereChange}
+                              />
+                            )}
+                            <Label> Adhiere Dosep </Label>
+                          </FormGroup>
 
-
-                        {           /* Bendito checked   */      }  
-                             <FormGroup check>
-                             { this.state.guia.adhiereCovid >= 1 ? 
-                               (<Input type="checkbox" name="adhiereCovid"                              
-                               checked={ this.state.guia.adhiereCovid ? "checked": false}                           
-                               onChange={this.handleAdhiereChange} />)
-                               : (
-                                <Input type="checkbox" name="adhiereCovid"
-                                onChange={this.handleAdhiereChange} />
-                               )
-                               }  
-                             <Label> Adhiere Covid </Label>  
-                           </FormGroup>
-                           <FormGroup check>
-                             { this.state.guia.adhiereDosep >= 1 ? 
-                               (<Input type="checkbox" name="adhiereDosep"                              
-                               checked={ this.state.guia.adhiereDosep ? "checked": false}                           
-                               onChange={this.handleAdhiereChange} />)
-                               : (
-                                <Input type="checkbox" name="adhiereDosep"
-                                onChange={this.handleAdhiereChange} />
-                               )
-                               }  
-                             <Label> Adhiere Dosep </Label>  
-                           </FormGroup>
-
-                          
-                         {/* <FormGroup check>
+                          {/* <FormGroup check>
                             <Label check>
                               <Input
                                 type="checkbox"
@@ -1111,8 +1194,7 @@ handleAdhiereChange = (event) => {
                             </Label>
                           </FormGroup> */}
 
-                          
-                       {/*   <Label htmlFor="adhiereCovid">Adhiere Covid</Label>
+                          {/*   <Label htmlFor="adhiereCovid">Adhiere Covid</Label>
                           <Input
                             type="input"
                             id="adhiereCovid"
@@ -1561,15 +1643,16 @@ handleAdhiereChange = (event) => {
             )}
           </Col>
         </Row>
+
         <ModalMsg
-        id={this.state.modal.nuevo}
+          id={this.props.match.params.id}
           open={this.state.modal.open}
+          close={this.closeModal}
           titulo="Update"
           msg={this.state.modal.msg}
           onlyOk={this.state.modal.onlyOk}
           handleAceptar={this.handleMsgOk}
           nuevo={this.state.modal.nuevo}
-          
         >
           {this.state.modal.extras}
         </ModalMsg>
