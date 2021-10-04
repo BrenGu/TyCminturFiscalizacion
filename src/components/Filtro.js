@@ -303,9 +303,14 @@ class Filtro extends Component {
   TodoslosAlojamientos = (event) => {
        fetch(`${process.env.REACT_APP_URL_API_SERVER_2}/exportaguias`, {
       method: "GET",
-      headers: new Headers({
-        Authorization: localStorage.getItem("WebTurToken"),
-      }),
+      //headers: new Headers({
+      //Authorization: localStorage.getItem("WebTurToken"),
+      //}
+      headers:( {
+        Authorization: "asdssffsdff",
+        "Content-Type": "application/json"
+      }
+      ),
     }).then((res) => {
       if (res.ok && res.status === 200) {
         res.json().then((data) => {
@@ -537,13 +542,8 @@ class Filtro extends Component {
                 <div className="mb-4 bg-dark p-4 text-white">
                   <i class="fas fa-arrow-right"></i> Consultas
                 </div>
-                <form
-                  action={`${process.env.REACT_APP_URL_API_SERVER_2}/filtro`}
-                  method="post"
-                  encType="application/x-www-form-urlencoded"
-                  target="_blank"
-                >
-                  <div>
+               
+                <div>
                     
                     <ExcelFile
                       element={
@@ -631,6 +631,14 @@ class Filtro extends Component {
                       </ExcelSheet>
                     </ExcelFile>
                   </div>
+             
+                <form
+                  action={`${process.env.REACT_APP_URL_API_SERVER_2}/filtro`}
+                  method="post"
+                  encType="application/x-www-form-urlencoded"
+                  target="_blank"
+                >
+                 
                   <br />
                   <br />
                   <div className="row">
