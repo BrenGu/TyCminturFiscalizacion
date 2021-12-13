@@ -983,6 +983,23 @@ handleDepartamentoChange1 = (event) => {
                         </Col>
                         <Col xs="12" md="4">
                           <FormGroup>
+                            <Label htmlFor="cuit">Cuit</Label>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              id="cuit"
+                              name="cuit"
+                              placeholder=""
+                              value={this.state.guia.cuit}
+                              onChange={this.handleChange}
+                              maxLength="20"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                      <Col xs="12" md="3">
+                          <FormGroup>
                             <Label htmlFor="telefono">Teléfono</Label>
                             <Input
                               type="text"
@@ -996,9 +1013,7 @@ handleDepartamentoChange1 = (event) => {
                             />
                           </FormGroup>
                         </Col>
-                      </Row>
-                      <Row>
-                        <Col xs="12" md="4">
+                        <Col xs="12" md="3">
                           <FormGroup>
                             <Label htmlFor="habitaciones">Habitaciones</Label>
                             <Input
@@ -1015,7 +1030,7 @@ handleDepartamentoChange1 = (event) => {
                             />
                           </FormGroup>
                         </Col>
-                        <Col xs="12" md="4">
+                        <Col xs="12" md="3">
                           <FormGroup>
                             <Label htmlFor="plazas">Plazas</Label>
                             <Input
@@ -1032,7 +1047,7 @@ handleDepartamentoChange1 = (event) => {
                             />
                           </FormGroup>
                         </Col>
-                        <Col xs="12" md="4">
+                        <Col xs="12" md="3">
                           <FormGroup>
                             <Label htmlFor="camas">Camas</Label>
                             <Input
