@@ -422,7 +422,7 @@ handleAdhiereChange = (event) => {
           idvalortipcat: 1,
           nombre: "",
           legajo: "",
-          cuil:"",
+          cuit:"",
           domicilio: "",
           telefono: "",
           habitaciones: 0,
